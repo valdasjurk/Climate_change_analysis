@@ -3,7 +3,7 @@
 import kaggle
 import pandas as pd
 
-DIRECTORY = "input_data_climate/GlobalLandTemperaturesByCity.csv"
+DIRECTORY = "data/raw/GlobalLandTemperaturesByCity.csv"
 
 
 def download_dataset():
@@ -79,11 +79,25 @@ def reasonable_masks(df):
     print(summer_time_data)
 
 
+def create_new_column(df, column, column_name):
+    df[column_name] = column
+    return df
+
+
+def remove_str_part(df, col, what_to_remove):
+    replacement = df[col].str.replace(what_to_remove, "")
+    df = create_new_column(df, replacement, "Latitude_raw")
+    return df
+
+
 if __name__ == "__main__":
     # download_dataset()
     df = read_dataset()
-    pick_specific_column(df)
-    pick_specific_2_columns(df)
-    pick_specific_row(df)
-    loc_iloc_difference(df)
-    reasonable_masks(df)
+    print(df.head())
+    df = remove_str_part(df, "Latitude", "N")
+    print(df)
+    # pick_specific_column(df)
+    # pick_specific_2_columns(df)
+    # pick_specific_row(df)
+    # loc_iloc_difference(df)
+    # reasonable_masks(df)
